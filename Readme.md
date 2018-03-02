@@ -38,7 +38,7 @@ To check out the [guide](https://docs.nestjs.com), visit [docs.nestjs.com](https
 
 ## Sponsors
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://opencollective.com/nest). Thanks! :heart_eyes:
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://opencollective.com/nest).
 
 <a href="https://valor-software.com/"><img src="https://docs.nestjs.com/assets/sponsors/valor-software.png" width="210" /></a> &nbsp; &nbsp; <a href="https://scal.io"><img src="https://nestjs.com/img/scalio-logo.png" width="160" /></a>
 
@@ -95,3 +95,5 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
   Nest is [MIT licensed](LICENSE).
+
+<h4 align="center"> <a href="readme_zh.md">中文说明</a></h4>

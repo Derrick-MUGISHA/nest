@@ -12,8 +12,8 @@ import { ReadPacket } from './../interfaces/packet.interface';
 
 export class ServerNats extends Server implements CustomTransportStrategy {
   private readonly url: string;
-  private subClient: nats.Client;
-  private pubClient: nats.Client;
+  private consumer: nats.Client;
+  private publisher: nats.Client;
 
   constructor(private readonly options: MicroserviceOptions) {
     super();
@@ -21,34 +21,34 @@ export class ServerNats extends Server implements CustomTransportStrategy {
   }
 
   public listen(callback: () => void) {
-    this.subClient = this.createNatsClient();
-    this.pubClient = this.createNatsClient();
+    this.consumer = this.createNatsClient();
+    this.publisher = this.createNatsClient();
 
-    this.handleError(this.pubClient);
-    this.handleError(this.subClient);
+    this.handleError(this.publisher);
+    this.handleError(this.consumer);
     this.start(callback);
   }
 
   public start(callback?: () => void) {
-    this.bindEvents(this.subClient, this.pubClient);
-    this.subClient.on(CONNECT_EVENT, callback);
+    this.bindEvents(this.consumer, this.publisher);
+    this.consumer.on(CONNECT_EVENT, callback);
   }
 
-  public bindEvents(subClient: nats.Client, pubClient: nats.Client) {
+  public bindEvents(consumer: nats.Client, publisher: nats.Client) {
     const registeredPatterns = Object.keys(this.messageHandlers);
     registeredPatterns.forEach(pattern => {
       const channel = this.getAckQueueName(pattern);
-      subClient.subscribe(
+      consumer.subscribe(
         channel,
-        this.getMessageHandler(channel, pubClient).bind(this),
+        () => this.getMessageHandler(channel, publisher),
       );
     });
   }
 
   public close() {
-    this.pubClient && this.pubClient.close();
-    this.subClient && this.subClient.close();
-    this.pubClient = this.subClient = null;
+    this.publisher && this.publisher.close();
+    this.consumer && this.consumer.close();
+    this.publisher = this.consumer = null;
   }
 
   public createNatsClient(): nats.Client {
@@ -83,9 +83,9 @@ export class ServerNats extends Server implements CustomTransportStrategy {
     response$ && this.send(response$, publish);
   }
 
-  public getPublisher(pubClient: nats.Client, pattern: any, id: string) {
+  public getPublisher(publisher: nats.Client, pattern: any, id: string) {
     return response =>
-      pubClient.publish(
+      publisher.publish(
         this.getResQueueName(pattern, id),
         Object.assign(response, { id }) as any,
       );

@@ -21,7 +21,7 @@ export class KafkaController {
   // @KafkaConsumer({
   //   topic: 'test.two'
   // })
-  // public whoknows;
+  // public producer;
 
   // @Client({
   //   transport: Transport.KAFKA,

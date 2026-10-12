@@ -7,7 +7,6 @@ node_modules/
 # IDE
 /.idea
 /.awcache
-/.vscode
 /.devcontainer
 /.classpath
 /.project
@@ -52,6 +51,4 @@ build/config\.gypi
 .npmrc
 pnpm-lock.yaml
 /.history
-branch_structure.json
-temp_auto_push.bat
-temp_interactive_push.bat
+config.bat
